@@ -1,0 +1,29 @@
+lara7-6-ajaxcrud
+	totorial
+		url: https://www.itsolutionstuff.com/post/laravel-6-ajax-crud-tutorialexample.html
+		description: has screen shots
+	we will use
+		resource routes
+		yajra datatable to list a records
+		bootstrap modal for create new records and update new records.
+	
+	--SETUP--
+	cd devilbox -> ./shell.sh
+	mkdir lara7-6-ajaxcrud -> cd lara7-6-ajaxcrud
+	composer create-project laravel/laravel="7.*" lara7-6-ajaxcrud --prefer-dist
+	ln -s lara7-6-ajaxcrud/public/ htdocs
+	exit;
+	sudo nano /etc/htdocs
+	127.0.0.1	lara7-6-ajaxcrud.loc
+	
+	github
+        make private repo on github -> lara7-6-ajaxcrud
+        make screen shot of next config steps -> "Alt + PrtScr", and save into app/additional folder
+        copy .env to env.txt file and save into app/additional folder
+
+        $ git config user.name "adved85"
+        $ git config user.email "adved85@gmail.com"
+        then do config steps from github (screen-shot)
+
+        
+
