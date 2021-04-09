@@ -17,13 +17,56 @@ lara7-6-ajaxcrud
 	127.0.0.1	lara7-6-ajaxcrud.loc
 	
 	github
+        ATTENTION!!! YOU CAN DO THIS OPERATIONS WITHOUT ENTERING INTO PHP CONTAINER.
+        
         make private repo on github -> lara7-6-ajaxcrud
         make screen shot of next config steps -> "Alt + PrtScr", and save into app/additional folder
         copy .env to env.txt file and save into app/additional folder
 
+        then do config steps from github (screen-shot)
+        git init
+        git add README.md
+
         $ git config user.name "adved85"
         $ git config user.email "adved85@gmail.com"
-        then do config steps from github (screen-shot)
+
+        git commit -m "first commit"
+        git branch -M main
+        git remote add origin git@github.com:adved85/lara7-6-ajaxcrud.git
+        git push -u origin main
+
+
+		if you dont have ssh connection
+		https://www.freecodecamp.org/news/git-ssh-how-to/
+			ssh-keygen -t rsa -b 4096 -C adved85@gmail.com
+			Enter (default file name - id_rsa ), Enter (no passphrass), Enter (no same passphrase)
+			Your identification has been saved in /home/whale/.ssh/id_rsa
+			# direcotry - where saved keys 
+			Your public key has been saved in /home/whale/.ssh/id_rsa.pub
+			The key fingerprint is:
+			SHA256:D2h8j9mMFhS+m0+lc41dWmWI2WDD8XxHwwaBIImNB5I adved85@gmail.com
+			
+			#copy ssh private key to ssh-agent			
+			eval "$(ssh-agent -s)"	# checks that ssh-agent is rinning
+			Agent pid 118139	# it is answer, and yes, it is running
+			
+			ssh-add ~/.ssh/id_rsa	# add your private key to ssh-agent
+			Identity added: /home/whale/.ssh/id_rsa (adved85@gmail.com)	# it is success answer
+			
+			#Copy your public SSH key
+			cat ~/.ssh/id_rsa.pub
+			copy output
+			
+			#Add your public SSH key to GitHub
+			Go to your GitHub settings page and click the "New SSH key" button
+			title -> whale@dao-Vostro-3580
+			key -> paste copied content (public key)
+			
+			
+		then try again with:
+		git push -u origin main
 
         
+
+
 
