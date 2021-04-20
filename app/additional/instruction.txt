@@ -6,7 +6,7 @@ lara7-6-ajaxcrud
 		resource routes
 		yajra datatable to list a records
 		bootstrap modal for create new records and update new records.
-	
+
 	--SETUP--
 	cd devilbox -> ./shell.sh
 	mkdir lara7-6-ajaxcrud -> cd lara7-6-ajaxcrud
@@ -15,10 +15,10 @@ lara7-6-ajaxcrud
 	exit;
 	sudo nano /etc/htdocs
 	127.0.0.1	lara7-6-ajaxcrud.loc
-	
+
 	github
         ATTENTION!!! YOU CAN DO THIS OPERATIONS WITHOUT ENTERING INTO PHP CONTAINER.
-        
+
         make private repo on github -> lara7-6-ajaxcrud
         make screen shot of next config steps -> "Alt + PrtScr", and save into app/additional folder
         copy .env to env.txt file and save into app/additional folder
@@ -41,32 +41,182 @@ lara7-6-ajaxcrud
 			ssh-keygen -t rsa -b 4096 -C adved85@gmail.com
 			Enter (default file name - id_rsa ), Enter (no passphrass), Enter (no same passphrase)
 			Your identification has been saved in /home/whale/.ssh/id_rsa
-			# direcotry - where saved keys 
+			# direcotry - where saved keys
 			Your public key has been saved in /home/whale/.ssh/id_rsa.pub
 			The key fingerprint is:
 			SHA256:D2h8j9mMFhS+m0+lc41dWmWI2WDD8XxHwwaBIImNB5I adved85@gmail.com
-			
-			#copy ssh private key to ssh-agent			
+
+			#copy ssh private key to ssh-agent
 			eval "$(ssh-agent -s)"	# checks that ssh-agent is rinning
 			Agent pid 118139	# it is answer, and yes, it is running
-			
+
 			ssh-add ~/.ssh/id_rsa	# add your private key to ssh-agent
 			Identity added: /home/whale/.ssh/id_rsa (adved85@gmail.com)	# it is success answer
-			
+
 			#Copy your public SSH key
 			cat ~/.ssh/id_rsa.pub
 			copy output
-			
+
 			#Add your public SSH key to GitHub
 			Go to your GitHub settings page and click the "New SSH key" button
 			title -> whale@dao-Vostro-3580
 			key -> paste copied content (public key)
-			
-			
+
+
 		then try again with:
 		git push -u origin main
 
-        
+
+*****
+php commands into php CONTAINER
+git commands from main OS.
+*****
+
+https://github.com/yajra/laravel-datatables
+https://www.postgresqltutorial.com/postgresql-create-database/
+https://www.itsolutionstuff.com/post/laravel-6-ajax-crud-tutorialexample.html
+https://www.enterprisedb.com/postgres-tutorials/how-use-postgresql-laravel
+
+
+Step 2: Install Yajra Datatable
+	https://github.com/yajra/laravel-datatables
+	2.1 Install
+	composer require yajra/laravel-datatables-oracle
+
+	2.2
+	Register provider and facade on your config/app.php file
+	'providers' => [
+		...,
+		Yajra\DataTables\DataTablesServiceProvider::class,
+	]
+
+	'aliases' => [
+		...,
+		'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+	]
+
+	2.3 Debugging Mode
+	APP_DEBUG=true
+
+
+Step 3: Database Configuration
+	pgsql database
+	https://www.postgresqltutorial.com/postgresql-create-database/
+	[run into sql]
+	CREATE DATABASE lara7_6_ajaxcrud
+	WITH
+	ENCODING = 'UTF8';
+
+
+Step 4: Create Migration Table
+	$ php artisan make:model Models/Product -m [LINUX]
+	$ php artisan make:model Models\Product -m [WINDOWS]
+	### $ php artisan make:migration create_products_table --create=products
+	which has
+	id
+	name
+	detail
+
+
+	$ php artisan migrate
+
+
+    [https://www.enterprisedb.com/postgres-tutorials/how-use-postgresql-laravel]
+    [https://laravel.com/docs/8.x/database-testing#generating-factories]
+    [https://fakerphp.github.io/]
+    php artisan make:factory ProductFactory --model=Models/Product
+
+    php artisan make:seeder ProductSeeder
+    factory(Product::class, 15)->create();
+    $ php artisan db:seed
+
+
+Step 5: Create Route
+	Route::resource('ajaxproducts','ProductAjaxController');
+
+
+
+Step 6: Add Controller ### and Model
+	php artisan make:controller ProductAjaxController --resource
+
+
+    https://jqueryvalidation.org/
+
+    jQuery DataTables: Common JavaScript console errors
+    https://www.gyrocode.com/articles/jquery-datatables-common-javascript-console-errors/#typeerror-datatable-is-not-a-function
+
+
+    Yajra Errors
+    foreach() argument must be of type array|object, null given“, exception: ”ErrorException
+    [https://datatables.net/manual/tech-notes/7]
+    [https://stackoverflow.com/questions/65878089/foreach-argument-must-be-of-type-arrayobject-null-given-exception-errore]
+    solution: php artisan config:cache
+
+
+    ->addIndexColumn() - adding "DT_RowIndex" named property (column for table) to our object
+    ->addColumn('action', function($row){} - adding new column with 'action' name, which has callback with current $row argument,
+        in this case we just preparing control-buttons for each row - delete and edit.
+    ->rawColumns(['action']) - tell about that this column need to be render as raw html
+    ->make(true); [or ->toJson()] - converting to json format with additional parameters like
+        recordsFiltered: 15
+        recordsTotal: 15
+        draw: 1
+        input: { with current values }
+
+
+    .modal-dialog-centered - this class centering modal vertically
+
+    # adding red color for error messages
+    label.error {
+        color: crimson;
+    }
+
+    how to use edit route in javascript
+    https://stackoverflow.com/questions/27634285/laravel-4-pass-a-variable-to-route-in-javascript
+        on top of the code
+        const productEditTemplate = @JSON(route('ajaxproducts.edit', ':productId'));
+        into click function
+        $('.data-table').on('click', '.editProduct', function() {
+            const productEdit = productEditTemplate.replace(':productId', productId);
+
+
+        the second way is using data-url (like data-id="' . $row->id . '") attribute, which comes with button raw-html from Container in this case.
+
+
+    See $.ajax() parameters and callbacks here -> https://api.jquery.com/jquery.ajax/
+    jqXHR.done(function( data, textStatus, jqXHR ) {});
+    jqXHR.fail(function( jqXHR, textStatus, errorThrown ) {});
+    jqXHR.always(function( data|jqXHR, textStatus, jqXHR|errorThrown ) { });
+
+
+    jQuery form validation on button click
+    https://stackoverflow.com/questions/13671710/jquery-form-validation-on-button-click
+    $('#btn').on('click', function() {
+        $("#form1").valid();
+    });
+
+
+    $productFormValidate.resetForm(); - reset error messages on reopen modal-form
+
+
+
+    ///////////////////////////
+    open "Inspect Elements" -> "Network"
+    click on "ajaxproducts?draw=1 ....." and find csrf token and ajax-header into Headers
+    Response Header
+        X-CSRF-TOKEN: EF3UP16FBknmQp1cC1oyQVqyFdRSzlu8n10iGg2I
+        X-Requested-With: XMLHttpRequest
+
+    into "Query String Parameters" you can see datatable's parameters that send on each request.
+    ////////////////////////////
+
+
+
+
+
+
+
+
 
 
 
