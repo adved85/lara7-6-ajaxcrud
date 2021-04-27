@@ -34,6 +34,16 @@ class ProductAjaxController extends Controller
         return view('products.productAjax');
     }
 
+    # tutsmake.com - ajax pagination
+    public function ajaxPaginationIndex(Request $request)
+    {
+        $data = Product::orderBy('id', 'DESC')->paginate(5);
+        if($request->ajax()) {
+            return view('products.ajax_pagination.loadAjaxPaginationData', compact('data'))->render();
+        }
+        return view('products.ajax_pagination.indexAjaxPagination', compact('data'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *

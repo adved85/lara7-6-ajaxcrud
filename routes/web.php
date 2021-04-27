@@ -18,3 +18,4 @@ Route::get('/', function () {
 });
 
 Route::resource('ajaxproducts','ProductAjaxController');
+Route::get('ajaxpagination', 'ProductAjaxController@ajaxPaginationIndex')->name('ajaxpagination.index');
