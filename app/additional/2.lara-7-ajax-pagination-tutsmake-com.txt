@@ -1,0 +1,41 @@
+https://www.tutsmake.com/laravel-ajax-pagination-example-tutorial/
+
+
+Step 1: Install Laravel New App
+Step 2: Add Database Details
+Step 3: Create Model and Migration
+-------------------------------------
+Step 4: Add Routes
+
+Step 5: Create Controllers By Artisan
+Step 6: Create Blade Views
+-------------------------------------
+Step 7: Run Development Server
+
+view files are into
+"resources/ajax_pagination/" folder
+    |
+    |__ loadAjaxPaginationData.blade.php
+    |__ indexAjaxPagination.blade.php
+
+first one is for generationg html data for
+second's table's tbody.
+
+
+main method is ProductAjaxController@ajaxPaginationIndex
+commented with  # tutsmake.com - ajax pagination
+
+route('ajaxpagination.index');
+
+there are 2 way to render loadAjaxPaginationData
+1) in Controller return view()->render()
+    and into ajaxPaginationIndex show pagination nav -> {{$data->links()}}
+
+2) into loadAjaxPaginationData, after all code render data as html -> {!! $data->render() !!}
+    in this way, you dont need to draw pagination, it does automaticaly.
+
+if you need to separate pagination-html code, use 1-st.
+if you need clean compact code need 2-nd way.
+
+
+
