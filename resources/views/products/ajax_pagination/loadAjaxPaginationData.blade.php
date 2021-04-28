@@ -19,4 +19,4 @@
         </tbody>
     </table>
 </div>
-{{-- {!! $data->render() !!} --}}
+{!! $data->render() !!}
