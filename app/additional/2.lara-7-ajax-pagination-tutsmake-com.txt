@@ -30,6 +30,7 @@ route('ajaxpagination.index');
 there are 2 way to render loadAjaxPaginationData
 1) in Controller return view()->render()
     and into ajaxPaginationIndex show pagination nav -> {{$data->links()}}
+    you need to write some js for changing active page styles.
 
 2) into loadAjaxPaginationData, after all code render data as html -> {!! $data->render() !!}
     in this way, you dont need to draw pagination, it does automaticaly.
@@ -38,4 +39,17 @@ if you need to separate pagination-html code, use 1-st.
 if you need clean compact code need 2-nd way.
 
 
+Working with history, pushState and replaceState in Javascript
+good explanation for window.history
+https://florianherlings.de/posts/2020-04-22-history-javascript-pushstate/
 
+
+    add a new entry as the “current” entry of the history list
+    window.history.pushState({currentUrl:url}, "", url);
+
+
+    catch event.state when clicking on the "back" or "forward" arrows of browser history navigation.
+    https://html.spec.whatwg.org/multipage/history.html#event-definitions-0
+    window.onpopstate = function(event) {
+        console.log(event.state.currentUrl);
+    }

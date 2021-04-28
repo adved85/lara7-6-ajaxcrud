@@ -23,9 +23,9 @@
         </div>
     </div>
 
-    <p>
+    {{-- <p>
         {{$data->links()}}
-    </p>
+    </p> --}}
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.js"></script>
@@ -34,9 +34,9 @@
             $('body').on('click', '.pagination a', function (e) {
                 e.preventDefault();
                 $('#load').append('<p>Loading ....</p>');
-                var url = $(this).attr('href');
+                const url = $(this).attr('href');
                 setTimeout(() => {
-                    window.history.pushState("", "", url);
+                    window.history.pushState({currentUrl:url}, "", url);
                     loadPosts(url);
                 }, 100);
             });
@@ -48,6 +48,12 @@
                 }).fail(function () {
                     console.log("Failed to load data!");
                 });
+            }
+
+            window.onpopstate = function(event) {
+                console.log(event.state);
+                const url = event.state.currentUrl;
+                loadPosts(url);
             }
         });
     </script>

@@ -39,7 +39,7 @@ class ProductAjaxController extends Controller
     {
         $data = Product::orderBy('id', 'DESC')->paginate(5);
         if($request->ajax()) {
-            return view('products.ajax_pagination.loadAjaxPaginationData', compact('data'))->render();
+            return view('products.ajax_pagination.loadAjaxPaginationData', compact('data'));//->render();
         }
         return view('products.ajax_pagination.indexAjaxPagination', compact('data'));
     }
